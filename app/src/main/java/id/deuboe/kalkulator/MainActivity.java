@@ -88,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.buttonClear:
-//        textInput.setText("");
-//        textOutput.setText("");
         clear();
         break;
       case R.id.buttonZero:
