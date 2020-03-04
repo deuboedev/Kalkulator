@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
         break;
       case R.id.buttonEqual:
-        process = textInput.getText().toString();
         calculate(true);
         break;
       case R.id.buttonDelete:
