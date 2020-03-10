@@ -10,30 +10,55 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 import android.text.Editable;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-  Button buttonZero, buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix,
-      buttonSeven, buttonEight, buttonNine, buttonClear, buttonBracket, buttonPercent, buttonDot,
-      buttonDivision, buttonMultiply, buttonPlus, buttonMinus, buttonEqual;
+  private TextView textOutput;
 
-  ImageButton buttonDelete;
+  private EditText textInput;
 
-  TextView textOutput;
+  private String process;
 
-  EditText textInput;
-
-  String process;
-
-  boolean checkBracket;
+  private boolean checkBracket;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    // inisialisasi objek
+    init();
+
+    // untuk menonaktifkan keyboard
+    disableKeyboard();
+
+    // untuk bisa menghitung lebih dulu sebelum menekan tombol sama dengan
+    textWatcher();
+
+  }
+
+  // method textWatcher
+  private void textWatcher() {
+    textInput.addTextChangedListener(textWatcher);
+  }
+
+  // method nonaktifkan keyboard
+  private void disableKeyboard() {
+    textInput.setRawInputType(InputType.TYPE_NULL);
+  }
+
+  // method inisialisasi
+  private void init() {
+    AppCompatButton buttonZero, buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive,
+        buttonSix, buttonSeven, buttonEight, buttonNine, buttonClear, buttonBracket, buttonPercent,
+        buttonDot, buttonDivision, buttonMultiply, buttonPlus, buttonMinus, buttonEqual;
+
+    AppCompatImageButton buttonDelete;
 
     buttonZero = findViewById(R.id.buttonZero);
     buttonZero.setOnClickListener(this);
@@ -78,12 +103,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     textInput = findViewById(R.id.textInput);
     textOutput = findViewById(R.id.textOutput);
-
-    textInput.setRawInputType(InputType.TYPE_NULL);
-    textInput.addTextChangedListener(textWatcher);
-
   }
 
+  // method process
+  private void process(int id) {
+    process = textInput.getText().toString();
+    textInput.setText(String.format("%s%s", process, getText(id)));
+  }
+
+  // method onClick (untuk tombol)
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
@@ -91,77 +119,59 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         clear();
         break;
       case R.id.buttonZero:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._0)));
+        process(R.string._0);
         break;
       case R.id.buttonOne:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._1)));
+        process(R.string._1);
         break;
       case R.id.buttonTwo:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._2)));
+        process(R.string._2);
         break;
       case R.id.buttonThree:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._3)));
+        process(R.string._3);
         break;
       case R.id.buttonFour:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._4)));
+        process(R.string._4);
         break;
       case R.id.buttonFive:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._5)));
+        process(R.string._5);
         break;
       case R.id.buttonSix:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._6)));
+        process(R.string._6);
         break;
       case R.id.buttonSeven:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._7)));
+        process(R.string._7);
         break;
       case R.id.buttonEight:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._8)));
+        process(R.string._8);
         break;
       case R.id.buttonNine:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string._9)));
+        process(R.string._9);
         break;
       case R.id.buttonDivision:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string.division)));
+        process(R.string.division);
         break;
       case R.id.buttonMultiply:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string.multiply)));
+        process(R.string.multiply);
         break;
       case R.id.buttonPlus:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string.plus)));
+        process(R.string.plus);
         break;
       case R.id.buttonMinus:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string.minus)));
+        process(R.string.minus);
         break;
       case R.id.buttonPercent:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string.percent)));
+        process(R.string.percent);
         break;
       case R.id.buttonDot:
-        process = textInput.getText().toString();
-        textInput.setText(String.format("%s%s", process, getText(R.string.dot)));
+        process(R.string.dot);
         break;
       case R.id.buttonBrackets:
         if (checkBracket) {
-          process = textInput.getText().toString();
-          textInput.setText(String.format("%s%s", process, getText(R.string.close_bracket)));
+          process(R.string.close_bracket);
           checkBracket = false;
         } else {
-          process = textInput.getText().toString();
-          textInput.setText(String.format("%s%s", process, getText(R.string.open_bracket)));
+          process(R.string.open_bracket);
           checkBracket = true;
         }
         break;
@@ -181,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
   private void delete() {
     if (isEmpty() > 1) {
-      this.textInput.getText().delete(getInput().length() -1, getInput().length());
-    } else if (isEmpty() == 1){
+      this.textInput.getText().delete(getInput().length() - 1, getInput().length());
+    } else if (isEmpty() == 1) {
       clear();
     }
   }
@@ -205,18 +215,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     rhino.setOptimizationLevel(-1);
     String finalResult;
-    try {
-      ScriptableObject scriptableObject = rhino.initStandardObjects();
-      finalResult = rhino.evaluateString(scriptableObject, process, "javascript", 1, null).toString();
-    } catch (Exception e) {
-      finalResult = getString(R.string._0);
-    }
 
-    if (isClick) {
-      textInput.setText(finalResult);
-      textOutput.setText("");
+    if (process.equals("")) {
+      textInput.setText(getText(R.string._0));
     } else {
-      textOutput.setText(finalResult);
+      try {
+        ScriptableObject scriptableObject = rhino.initStandardObjects();
+        finalResult = rhino.evaluateString(scriptableObject, process, "javascript", 1, null)
+            .toString();
+      } catch (Exception e) {
+        finalResult = getString(R.string._0);
+      }
+      if (isClick) {
+        textInput.setText(finalResult);
+        textOutput.setText("");
+      } else {
+        textOutput.setText(finalResult);
+      }
     }
   }
 
