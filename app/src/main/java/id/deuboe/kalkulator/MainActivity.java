@@ -18,6 +18,8 @@ import android.text.Editable;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
+  private AppCompatButton buttonEqual;
+
   private TextView textOutput;
 
   private EditText textInput;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
   private void init() {
     AppCompatButton buttonZero, buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive,
         buttonSix, buttonSeven, buttonEight, buttonNine, buttonClear, buttonBracket, buttonPercent,
-        buttonDot, buttonDivision, buttonMultiply, buttonPlus, buttonMinus, buttonEqual;
+        buttonDot, buttonDivision, buttonMultiply, buttonPlus, buttonMinus;
 
     AppCompatImageButton buttonDelete;
 
@@ -216,9 +218,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     rhino.setOptimizationLevel(-1);
     String finalResult;
 
-    if (process.equals("")) {
-      textInput.setText(getText(R.string._0));
+    if (process.isEmpty()) {
+      buttonEqual.setEnabled(false);
     } else {
+      buttonEqual.setEnabled(true);
       try {
         ScriptableObject scriptableObject = rhino.initStandardObjects();
         finalResult = rhino.evaluateString(scriptableObject, process, "javascript", 1, null)
